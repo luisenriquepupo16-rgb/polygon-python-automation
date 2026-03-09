@@ -1,19 +1,24 @@
 import re
+import sys
 
 def validar_direccion_polygon(wallet):
-    # Una dirección real empieza por 0x y tiene 40 caracteres más (42 total)
+    # Esto limpia espacios y comillas accidentales.
+    wallet = wallet.strip().replace("'", "").replace('"', "")
+    
+    # Patrón oficial: 0x + 40 caracteres hexadecimales
     patron = r"^0x[a-fA-F0-9]{40}$"
     
     if re.match(patron, wallet):
         return True
+    return False
+
+if __name__ == "__main__":
+        direccion_a_probar = sys.argv[1]
     else:
-        return False
+        direccion_a_probar = "0xD9D9300003b141D825cB7f217162be01F5fe3871"
 
-# Prueba con tu dirección (pon la tuya entre las comillas)
-mi_wallet = "TU_DIRECCION_AQUI" 
-
-if validar_direccion_polygon(mi_wallet):
-    print("✅ DIRECCION VALIDA: Lista para recibir USDT")
-else:
-    print("❌ ERROR: Formato de direccion incorrecto")
+    if validar_direccion_polygon(direccion_a_probar):
+        print(f"✅ VALIDA: {direccion_a_probar}")
+    else:
+        print(f"❌ ERROR: Formato incorrecto (Longitud: {len(direccion_a_probar)} caracteres)")
 
